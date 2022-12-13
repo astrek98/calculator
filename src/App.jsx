@@ -18,13 +18,13 @@ export default function App() {
         </div>
       </div>
       <button
-        className="shrink-0 cursor-pointer rounded-lg border dark:bg-white hover:bg-gray-100"
+        className="shrink-0 cursor-pointer rounded-lg border hover:bg-gray-100 dark:hover:bg-gray-700"
         onClick={() => {
           setTheme((current) => (current === 'light' ? 'dark' : 'light'));
           toggleDarkMode();
         }}
       >
-        {theme === 'light' ? <MoonIcon /> : <SunIcon></SunIcon>}
+        {theme === 'light' ? <MoonIcon /> : <SunIcon color='white'/>}
       </button>
     </div>
   );
