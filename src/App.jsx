@@ -9,7 +9,7 @@ function toggleDarkMode() {
 }
 
 export default function App() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   console.log('render');
   return (
     <>
