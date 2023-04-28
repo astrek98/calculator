@@ -1,15 +1,17 @@
+import { OPERATORS } from './constants';
+
 export const calculatorButtons = [
   {
-    label: 'AC',
+    label: OPERATORS.CLEAR,
   },
   {
-    label: '+/-',
+    label: OPERATORS.PLUS_MINUS,
   },
   {
-    label: '%',
+    label: OPERATORS.DELETE,
   },
   {
-    label: '÷',
+    label: OPERATORS.DIVIDE,
     color: 'orange',
   },
   {
@@ -22,7 +24,7 @@ export const calculatorButtons = [
     label: '9',
   },
   {
-    label: 'x',
+    label: OPERATORS.MULTIPLY,
     color: 'orange',
   },
   {
@@ -35,7 +37,7 @@ export const calculatorButtons = [
     label: '6',
   },
   {
-    label: '-',
+    label: OPERATORS.SUBTRACT,
     color: 'orange',
   },
   {
@@ -49,17 +51,17 @@ export const calculatorButtons = [
     label: '3',
   },
   {
-    label: '+',
+    label: OPERATORS.ADD,
     color: 'orange',
   },
   {
-    label: '.',
+    label: OPERATORS.DECIMAL,
   },
   {
     label: '0',
   },
   {
-    label: '=',
+    label: OPERATORS.EQUALS,
     color: 'orange',
     colSpan: 2,
   },
