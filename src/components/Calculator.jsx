@@ -4,14 +4,18 @@ import { Button } from './Button';
 import { ARITHMETIC_OPERATORS, OPERATORS } from '../utils/constants';
 
 export function Calculator() {
+  const [firstValue, setFirstValue] = useState(null);
   const [inputValue, setInputValue] = useState('0');
+  const [operator, setOperator] = useState(null);
+  const [shouldReset, setShouldReset] = useState(false);
 
   const handleButtonChange = (event) => {
     const value = event.target.innerText;
-    console.log({ value });
 
     if (value === OPERATORS.CLEAR) {
       setInputValue('0');
+      setFirstValue(null);
+      setOperator(null);
       return;
     }
 
@@ -26,13 +30,37 @@ export function Calculator() {
     }
 
     if (ARITHMETIC_OPERATORS.includes(value)) {
-      console.log('arithmetic operator');
-      // TODO
+      setFirstValue(inputValue);
+      setShouldReset(true);
+      setOperator(value);
+      return;
     }
 
     if (value === OPERATORS.EQUALS) {
-      console.log('equals');
-      // TODO
+      if (!firstValue || !operator) return;
+      const secondValue = inputValue;
+
+      let result;
+      switch (operator) {
+        case OPERATORS.ADD:
+          result = parseFloat(firstValue) + parseFloat(secondValue);
+          break;
+        case OPERATORS.SUBTRACT:
+          result = parseFloat(firstValue) - parseFloat(secondValue);
+          break;
+        case OPERATORS.MULTIPLY:
+          result = parseFloat(firstValue) * parseFloat(secondValue);
+          break;
+        case OPERATORS.DIVIDE:
+          result = parseFloat(firstValue) / parseFloat(secondValue);
+          break;
+        default:
+          break;
+      }
+      console.log({ result, operator, firstValue, secondValue });
+      setInputValue(result.toString());
+
+      return;
     }
 
     if (value === OPERATORS.DECIMAL && inputValue.includes(OPERATORS.DECIMAL)) {
@@ -52,12 +80,19 @@ export function Calculator() {
       setInputValue(newValue);
       return;
     }
+    if (shouldReset) {
+      setInputValue(value);
+      setShouldReset(false);
+      return;
+    }
     setInputValue((prevValue) => prevValue + value);
   };
 
   return (
     <div className="max-w-xl mx-auto">
-      <span className="dark:text-white"></span>
+      <span className="dark:text-white">
+        {firstValue} {operator}
+      </span>
       <input
         value={inputValue}
         placeholder="0"
