@@ -8,8 +8,39 @@ export function Calculator() {
   const [inputValue, setInputValue] = useState('0');
   const [operator, setOperator] = useState(null);
   const [shouldReset, setShouldReset] = useState(false);
+  const [history, setHistory] = useState([]);
 
-  const handleButtonChange = (event) => {
+  function calculateResult() {
+    if (!firstValue || !operator) return;
+    const secondValue = inputValue;
+
+    let result;
+    switch (operator) {
+      case OPERATORS.ADD:
+        result = parseFloat(firstValue) + parseFloat(secondValue);
+        break;
+      case OPERATORS.SUBTRACT:
+        result = parseFloat(firstValue) - parseFloat(secondValue);
+        break;
+      case OPERATORS.MULTIPLY:
+        result = parseFloat(firstValue) * parseFloat(secondValue);
+        break;
+      case OPERATORS.DIVIDE:
+        result = parseFloat(firstValue) / parseFloat(secondValue);
+        break;
+      default:
+        break;
+    }
+    console.log({ result, operator, firstValue, secondValue });
+    setInputValue(result.toString());
+
+    setHistory((prevHistory) => [
+      ...prevHistory,
+      `${firstValue} ${operator} ${secondValue} = ${result}`,
+    ]);
+  }
+
+  const handleButtonPressed = (event) => {
     const value = event.target.innerText;
 
     if (value === OPERATORS.CLEAR) {
@@ -37,29 +68,7 @@ export function Calculator() {
     }
 
     if (value === OPERATORS.EQUALS) {
-      if (!firstValue || !operator) return;
-      const secondValue = inputValue;
-
-      let result;
-      switch (operator) {
-        case OPERATORS.ADD:
-          result = parseFloat(firstValue) + parseFloat(secondValue);
-          break;
-        case OPERATORS.SUBTRACT:
-          result = parseFloat(firstValue) - parseFloat(secondValue);
-          break;
-        case OPERATORS.MULTIPLY:
-          result = parseFloat(firstValue) * parseFloat(secondValue);
-          break;
-        case OPERATORS.DIVIDE:
-          result = parseFloat(firstValue) / parseFloat(secondValue);
-          break;
-        default:
-          break;
-      }
-      console.log({ result, operator, firstValue, secondValue });
-      setInputValue(result.toString());
-
+      calculateResult();
       return;
     }
 
@@ -90,9 +99,7 @@ export function Calculator() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <span className="dark:text-white">
-        {firstValue} {operator}
-      </span>
+      <span className="dark:text-white">{JSON.stringify(history)}</span>
       <input
         value={inputValue}
         placeholder="0"
@@ -103,8 +110,8 @@ export function Calculator() {
       <div className="grid grid-cols-4 gap-2.5 mt-2">
         {calculatorButtons.map((btn) => (
           <Button
-            key={btn.label}
-            onClick={handleButtonChange}
+            key={btn.value}
+            onClick={handleButtonPressed}
             color={btn.color}
             colSpan={btn.colSpan}
           >
